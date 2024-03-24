@@ -281,7 +281,7 @@ for i,ch in enumerate(char):
     plt.axis('off')
 plt.show()"""
 #st.pyplot(fig)
-output_img, plate =extract_plate(img)
+output_img, plate =extract_plate(opencv_image)
 st.image(output_img)
 st.image(plate)
 st.write('recognized license plate numbber:',final_plate)

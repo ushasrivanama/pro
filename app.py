@@ -94,7 +94,6 @@ if bytes_data is not None:
 
 """test_bytes_data = uploaded_file.getvalue()
 dk_test_img = cv2.imdecode(np.frombuffer(test_bytes_data, np.uint8), cv2.IMREAD_COLOR) #read file"""
-plate_img_out, plate_out = extract_plate(dk_test_img) #apply
 
 #Match contours
 # Match contours to license plate or character template

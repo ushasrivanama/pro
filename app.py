@@ -286,5 +286,8 @@ st.subheader('detected license plate')
 st.image(output_img,channels="RGB")
 st.subheader('number plate')
 st.image(plate,channels="RGB")
-st.subheader('Recognized license plate number:', final_plate, style="color: rainbow;")
+text =final_plate 
+# Display the text with custom HTML styling
+st.markdown(f'<p style="color: blue;">{text}</p>', unsafe_allow_html=True)
+
 

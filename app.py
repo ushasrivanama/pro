@@ -289,6 +289,7 @@ st.subheader('number plate')
 st.image(plate,channels="RGB")
 text =final_plate 
 # Display the text with custom HTML styling
-st.markdown(f'<h3 style="color:red;">{text}</h3>', unsafe_allow_html=True)
+
+st.markdown(f'the recognized number is :<h3 style="color:red;">{text}</h3>', unsafe_allow_html=True)
 
 

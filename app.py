@@ -88,9 +88,12 @@ def extract_plate(img): # the function detects and perfors blurring on the numbe
 
 #Apply extraction function
 
-#dk_test_img = cv2.imread(opencv_image) #read file
-test_bytes_data = uploaded_file.getvalue()
-dk_test_img = cv2.imdecode(np.frombuffer(test_bytes_data, np.uint8), cv2.IMREAD_COLOR) #read file
+bytes_data = uploaded_file.getvalue() if hasattr(uploaded_file, "getvalue") else None
+    if bytes_data is not None:
+        opencv_image = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+
+"""test_bytes_data = uploaded_file.getvalue()
+dk_test_img = cv2.imdecode(np.frombuffer(test_bytes_data, np.uint8), cv2.IMREAD_COLOR) #read file"""
 plate_img_out, plate_out = extract_plate(dk_test_img) #apply
 
 #Match contours
@@ -130,7 +133,7 @@ def find_contours(dimensions, img) :
             cv2.rectangle(ii, (intX,intY), (intWidth+intX, intY+intHeight), (50,21,200), 2)
             plt.imshow(ii, cmap='gray')
 
-#           Make result formatted for classification: invert colors
+            #Make result formatted for classification: invert colors
             char = cv2.subtract(255, char)
 
             # Resize the image to 24x44 with black border
@@ -290,6 +293,7 @@ st.image(plate,channels="RGB")
 text =final_plate 
 # Display the text with custom HTML styling
 
-st.markdown(f'the recognized number is :<h3 style="color:red;">{text}</h3>', unsafe_allow_html=True)
+st.markdown(f'the recognized number :<h3 style="color:red;">{text}</h3>', unsafe_allow_html=True)
+if 
 
 

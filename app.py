@@ -286,4 +286,5 @@ st.subheader('detected license plate')
 st.image(output_img,channels="RGB")
 st.subheader('number plate')
 st.image(plate,channels="RGB")
-st.subheader('recognized license plate numbber:',:rainbow[final_plate])
+st.subheader('Recognized license plate number:', final_plate, style="color: rainbow;")
+

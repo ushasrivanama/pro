@@ -89,8 +89,8 @@ def extract_plate(img): # the function detects and perfors blurring on the numbe
 #Apply extraction function
 
 bytes_data = uploaded_file.getvalue() if hasattr(uploaded_file, "getvalue") else None
-    if bytes_data is not None:
-        opencv_image = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+if bytes_data is not None:
+	opencv_image = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
 
 """test_bytes_data = uploaded_file.getvalue()
 dk_test_img = cv2.imdecode(np.frombuffer(test_bytes_data, np.uint8), cv2.IMREAD_COLOR) #read file"""

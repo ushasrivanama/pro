@@ -282,6 +282,8 @@ for i,ch in enumerate(char):
 plt.show()"""
 #st.pyplot(fig)
 output_img, plate =extract_plate(opencv_image)
-st.image(output_img)
-st.image(plate)
+st.subheader('detected license plate')
+st.image(output_img,channels="RGB")
+st.subheader('number plate')
+st.image(plate,channels="RGB")
 st.write('recognized license plate numbber:',final_plate)

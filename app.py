@@ -280,5 +280,5 @@ for i,ch in enumerate(char):
     plt.title(f'predicted: {show_results()[i]}')
     plt.axis('off')
 plt.show()"""
-st.pyplot(fig)
+#st.pyplot(fig)
 st.write(final_plate)

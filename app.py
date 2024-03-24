@@ -69,7 +69,7 @@ st.subheader('License plate detection model')
 
 #create extraction function honestly don't know how much of this is needed
 
-def extract_plate(img): # the function detects and perfors blurring on the number plate.
+"""def extract_plate(img): # the function detects and perfors blurring on the number plate.
 	plate_img = img.copy()
 	
 	#Loads the data required for detecting the license plates from cascade classifier.
@@ -84,6 +84,28 @@ def extract_plate(img): # the function detects and perfors blurring on the numbe
 		cv2.rectangle(plate_img, (x,y), (x+w, y+h), (51,51,255), 3)
         
 	return plate_img, plate # returning the processed image.
+
+import cv2"""
+
+def extract_plate(img):
+    # Convert the image to grayscale for better detection
+    gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # Load the data required for detecting the license plates from the cascade classifier.
+    plate_cascade = cv2.CascadeClassifier('indian_license_plate.xml')
+
+    # Detect number plates and return the coordinates and dimensions of detected license plate's contours.
+    plate_rect = plate_cascade.detectMultiScale(gray_img, scaleFactor=1.3, minNeighbors=7)
+
+    for (x, y, w, h) in plate_rect:
+        # Extract the detected license plate region from the grayscale image
+        plate = img[y:y+h, x:x+w]
+        
+        # Draw a rectangle around the detected license plate on the original image
+        cv2.rectangle(img, (x, y), (x+w, y+h), (51, 51, 255), 3)
+
+    return img, plate  # Return the processed image along with the cropped license plate region
+
 
 #Apply extraction function
 

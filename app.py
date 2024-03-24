@@ -288,6 +288,6 @@ st.subheader('number plate')
 st.image(plate,channels="RGB")
 text =final_plate 
 # Display the text with custom HTML styling
-st.markdown(f'<p style="color: blue;">{text}</p>', unsafe_allow_html=True)
+st.markdown(f'<p style="color: rainbow;">{text}</p>', unsafe_allow_html=True)
 
 

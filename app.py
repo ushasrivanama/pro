@@ -49,6 +49,16 @@ st.subheader('Input a picture')
 st.markdown('Upload your picture in the box below, or take a picture with your phone')
 
 #upload a picture
+uploaded_file = st.file_uploader("Upload your picture (only .jpg)", type=["jpg"])
+if uploaded_file is not None:
+    # Display image
+    st.write("Original Image")
+    st.image(uploaded_file, caption="Uploaded Image")
+
+    
+    # Convert image to cv2 format
+    bytes_data = uploaded_file.getvalue()
+    opencv_image = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
 #------------ License plate detection model
 st.subheader('License plate detection model')
 

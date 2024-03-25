@@ -87,7 +87,7 @@ if uploaded_file is not None:
     opencv_image = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
 
     # Apply license plate extraction function
-    plate_img_out,plate_out= extract_plate(opencv_image)
+    plate_img_out, plate_out= extract_plate(opencv_image)
 
     # Display processed image with detected license plates
     st.subheader('License plate detection result')

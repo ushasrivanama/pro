@@ -68,8 +68,48 @@ if uploaded_file is not None:
 st.subheader('License plate detection model')
 
 #create extraction function honestly don't know how much of this is needed
+import streamlit as st
+import cv2
+import numpy as np
 
-def extract_plate(img): # the function detects and perfors blurring on the number plate.
+# Function to extract license plate
+def extract_plate(img):
+    plate_img = img.copy()
+
+    # Load the license plate cascade classifier
+    plate_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'indian_license_plate.xml')
+
+    # Detect license plates and return the coordinates and dimensions of detected license plate's contours
+    plate_rect = plate_cascade.detectMultiScale(plate_img, scaleFactor=1.3, minNeighbors=7)
+
+    for (x, y, w, h) in plate_rect:
+        plate = plate_img[y:y+h, x:x+w, :]
+        # Draw rectangles around the detected license plates
+        cv2.rectangle(plate_img, (x, y), (x+w, y+h), (51, 51, 255), 3)
+
+    return plate_img, plate
+
+# Main Streamlit code
+uploaded_file = st.file_uploader("Upload your picture (only .jpg)", type=["jpg"])
+
+if uploaded_file is not None:
+    # Display original image
+    st.write("Original Image")
+    st.image(uploaded_file, caption="Uploaded Image")
+
+    # Convert uploaded image to OpenCV format
+    bytes_data = uploaded_file.getvalue()
+    opencv_image = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
+
+    # Apply license plate extraction function
+    plate_img_out,plate_out= extract_plate(opencv_image)
+
+    # Display processed image with detected license plates
+    st.subheader('License plate detection result')
+    st.image(plate_img_out, caption="Detected License Plate")
+
+
+"""def extract_plate(img): # the function detects and perfors blurring on the number plate.
 	plate_img = img.copy()
 	
 	#Loads the data required for detecting the license plates from cascade classifier.
@@ -91,7 +131,7 @@ def extract_plate(img): # the function detects and perfors blurring on the numbe
 bytes_data = uploaded_file.getvalue() if hasattr(uploaded_file, "getvalue") else None
 if bytes_data is not None:
 	opencv_image = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
-plate_img_out, plate_out = extract_plate(opencv_image) #apply
+plate_img_out, plate_out = extract_plate(opencv_image) #apply"""
 
 #Match contours
 # Match contours to license plate or character template

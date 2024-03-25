@@ -52,46 +52,29 @@ st.markdown('Upload your picture in the box below, or take a picture with your p
 #------------ License plate detection model
 st.subheader('License plate detection model')
 
-#create extraction function honestly don't know how much of this is needed
-import streamlit as st
-import cv2
-import numpy as np
+def extract_plate(img): # the function detects and perfors blurring on the number plate.
+	plate_img = img.copy()
+	
+	#Loads the data required for detecting the license plates from cascade classifier.
+	plate_cascade = cv2.CascadeClassifier('indian_license_plate.xml')
 
-# Function to extract license plate
-def extract_plate(img):
-    plate_img = img.copy()
+	# detects numberplates and returns the coordinates and dimensions of detected license plate's contours.
+	plate_rect = plate_cascade.detectMultiScale(plate_img, scaleFactor = 1.3, minNeighbors = 7)
 
-    # Load the license plate cascade classifier
-    plate_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'indian_license_plate.xml')
+	for (x,y,w,h) in plate_rect:
+		plate = plate_img[y:y+h, x:x+w, :]
+		# finally representing the detected contours by drawing rectangles around the edges.
+		cv2.rectangle(plate_img, (x,y), (x+w, y+h), (51,51,255), 3)
+        
+	return plate_img, plate # returning the processed image.
 
-    # Detect license plates and return the coordinates and dimensions of detected license plate's contours
-    plate_rect = plate_cascade.detectMultiScale(plate_img, scaleFactor=1.3, minNeighbors=7)
+#Apply extraction function
 
-    for (x, y, w, h) in plate_rect:
-        plate = plate_img[y:y+h, x:x+w, :]
-        # Draw rectangles around the detected license plates
-        cv2.rectangle(plate_img, (x, y), (x+w, y+h), (51, 51, 255), 3)
+#dk_test_img = cv2.imread(opencv_image) #read file
+test_bytes_data = uploaded_file.getvalue()
+dk_test_img = cv2.imdecode(np.frombuffer(test_bytes_data, np.uint8), cv2.IMREAD_COLOR) #read file
+plate_img_out, plate_out = extract_plate(dk_test_img) #apply
 
-    return plate_img, plate
-
-# Main Streamlit code
-uploaded_file = st.file_uploader("Upload your picture (only .jpg)", type=["jpg"])
-
-if uploaded_file is not None:
-    # Display original image
-    st.write("Original Image")
-    st.image(uploaded_file, caption="Uploaded Image")
-
-    # Convert uploaded image to OpenCV format
-    bytes_data = uploaded_file.getvalue()
-    opencv_image = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
-
-    # Apply license plate extraction function
-    plate_img_out, plate_out= extract_plate(opencv_image)
-
-    # Display processed image with detected license plates
-    st.subheader('License plate detection result')
-    st.image(plate_img_out, caption="Detected License Plate")
 #Match contours
 # Match contours to license plate or character template
 def find_contours(dimensions, img) :
@@ -129,7 +112,7 @@ def find_contours(dimensions, img) :
             cv2.rectangle(ii, (intX,intY), (intWidth+intX, intY+intHeight), (50,21,200), 2)
             plt.imshow(ii, cmap='gray')
 
-            #Make result formatted for classification: invert colors
+#           Make result formatted for classification: invert colors
             char = cv2.subtract(255, char)
 
             # Resize the image to 24x44 with black border
@@ -189,6 +172,8 @@ def segment_characters(image) :
     return char_list
 
 char = segment_characters(plate_out) #showing plates
+
+#showing plates
 #create fit parameters
 
 #train_datagen = ImageDataGenerator(rescale=1./255, width_shift_range=0.1, height_shift_range=0.1)

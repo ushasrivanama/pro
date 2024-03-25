@@ -277,6 +277,7 @@ text =final_plate
 # Display the text with custom HTML styling
 
 st.markdown(f'the recognized number :<h3 style="color:red;">{text}</h3>', unsafe_allow_html=True)
+st.subheader("checking the database")
 l=['DL7CQ1939','MHOIAV8866','HR03R0699']
 if final_plate in l:
 	st.write("registered number")
